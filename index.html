@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080d16">
+    <meta name="description" content="FOGO EM ALERTA - Simulador interativo de prevenção e evacuação em situações de incêndio.">
+
+    <title>FOGO EM ALERTA | Simulador de Emergências</title>
+
+    <!-- FONTES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- ÍCONE -->
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!-- AMBIENTE 3D -->
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- TELA DE CARREGAMENTO -->
+        <section id="loadingScreen" class="loading-screen hidden">
+            <div class="loading-content">
+
+                <div class="loading-brand">
+                    <span class="brand-symbol">F</span>
+
+                    <div>
+                        <h1>FOGO <span>EM ALERTA</span></h1>
+                        <p>SIMULADOR DE EMERGÊNCIAS</p>
+                    </div>
+                </div>
+
+                <div class="loading-animation">
+                    <div class="loading-ring"></div>
+                </div>
+
+                <p id="loadingLabel">INICIALIZANDO SISTEMA...</p>
+
+                <div class="loading-bar">
+                    <div id="loadingProgress" class="loading-progress"></div>
+                </div>
+
+                <span class="loading-version">
+                    SISTEMA FOGO EM ALERTA • VERSÃO 1.0
+                </span>
+
+            </div>
+        </section>
+
+        <!-- MENU PRINCIPAL -->
+        <main id="mainMenu" class="main-menu">
+
+            <div class="menu-overlay"></div>
+
+            <section class="menu-content">
+
+                <div class="menu-label">
+                    <span></span>
+                    SIMULADOR DE EMERGÊNCIA
+                </div>
+
+                <h1 class="menu-title">
+                    QUANDO CADA
+                    <span>SEGUNDO</span>
+                    IMPORTA.
+                </h1>
+
+                <p class="menu-description">
+                    Prepare-se para enfrentar situações de emergência,
+                    identificar riscos e aprender os procedimentos
+                    corretos de prevenção e evacuação.
+                </p>
+
+                <div class="menu-buttons">
+
+                    <button id="playButton" class="primary-button">
+                        <span>INICIAR SIMULAÇÃO</span>
+                        <span class="button-arrow">→</span>
+                    </button>
+
+                    <button id="settingsButton" class="secondary-button">
+                        CONFIGURAÇÕES
+                    </button>
+
+                    <button id="exitButton" class="secondary-button exit-button">
+                        SAIR
+                    </button>
+
+                </div>
+
+                <div class="menu-bottom-info">
+                    <span>01 — DETECTAR</span>
+                    <span>02 — RESPONDER</span>
+                    <span>03 — EVACUAR</span>
+                </div>
+
+            </section>
+
+            <footer class="menu-footer">
+                <span>FOGO EM ALERTA © 2026</span>
+                <span>PREVENÇÃO • CONSCIENTIZAÇÃO • SEGURANÇA</span>
+                <span>PROJETO EDUCACIONAL</span>
+            </footer>
+
+        </main>
+
+        <!-- SELEÇÃO DE CENÁRIOS -->
+        <section id="scenarioSelect" class="scenario-select hidden">
+
+            <div class="scenario-header">
+
+                <button id="backToMenu" class="back-button">
+                    ← VOLTAR
+                </button>
+
+                <div class="section-label">
+                    FOGO EM ALERTA / MISSÕES
+                </div>
+
+            </div>
+
+            <div class="scenario-heading">
+
+                <span class="section-eyebrow">
+                    SELECIONE SUA EXPERIÊNCIA
+                </span>
+
+                <h2>
+                    ESCOLHA UM <span>CENÁRIO</span>
+                </h2>
+
+                <p>
+                    Cada ambiente apresenta uma situação diferente
+                    de emergência.
+                </p>
+
+            </div>
+
+            <div id="scenarioCards" class="scenario-cards"></div>
+
+            <div class="scenario-bottom">
+
+                <span>PROTOCOLO DE SIMULAÇÃO 01.0</span>
+
+                <button id="startScenario" class="primary-button">
+                    INICIAR CENÁRIO →
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- CONFIGURAÇÕES -->
+        <section id="settingsPanel" class="settings-panel hidden">
+
+            <div class="panel">
+
+                <div class="panel-heading">
+
+                    <div>
+                        <span class="section-eyebrow">
+                            PREFERÊNCIAS DO SISTEMA
+                        </span>
+
+                        <h2>CONFIGURAÇÕES</h2>
+                    </div>
+
+                    <button
+                        id="closeSettings"
+                        class="close-button"
+                        aria-label="Fechar configurações"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+                <div class="setting-item">
+
+                    <div class="setting-description">
+                        <strong>VOLUME DO ÁUDIO</strong>
+                        <span>Controle dos efeitos sonoros</span>
+                    </div>
+
+                    <div class="setting-control">
+
+                        <input
+                            id="volumeControl"
+                            type="range"
+                            min="0"
+                            max="100"
+                            value="65"
+                        >
+
+                        <span id="volumeValue">65%</span>
+
+                    </div>
+
+                </div>
+
+                <div class="setting-item">
+
+                    <div class="setting-description">
+                        <strong>QUALIDADE GRÁFICA</strong>
+                        <span>Desempenho da simulação 3D</span>
+                    </div>
+
+                    <select id="qualityControl">
+                        <option value="low">BAIXA</option>
+                        <option value="medium">MÉDIA</option>
+                        <option value="high" selected>ALTA</option>
+                    </select>
+
+                </div>
+
+                <div class="setting-item">
+
+                    <div class="setting-description">
+                        <strong>TELA CHEIA</strong>
+                        <span>Expandir a experiência</span>
+                    </div>
+
+                    <button id="fullscreenButton" class="secondary-button">
+                        ATIVAR
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- CONFIRMAÇÃO DE SAÍDA -->
+        <section id="exitDialog" class="dialog-overlay hidden">
+
+            <div class="dialog-box">
+
+                <span class="section-eyebrow">
+                    MENSAGEM DO SISTEMA
+                </span>
+
+                <h2>DESEJA SAIR?</h2>
+
+                <p>
+                    Tem certeza de que deseja sair da experiência?
+                </p>
+
+                <div class="dialog-actions">
+
+                    <button id="closeExit" class="secondary-button">
+                        CANCELAR
+                    </button>
+
+                    <button id="confirmExit" class="primary-button">
+                        CONFIRMAR
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- INTERFACE DA SIMULAÇÃO -->
+        <section id="simulation" class="simulation-interface hidden">
+
+            <header class="simulation-header">
+
+                <div class="simulation-brand">
+                    <strong>FOGO <span>EM ALERTA</span></strong>
+                    <small>SISTEMA DE RESPOSTA A EMERGÊNCIAS</small>
+                </div>
+
+                <div class="simulation-information">
+
+                    <div>
+                        <span>CENÁRIO</span>
+                        <strong id="scenarioName">ESCRITÓRIO</strong>
+                    </div>
+
+                    <div>
+                        <span>TEMPO</span>
+                        <strong id="simClock">00:00</strong>
+                    </div>
+
+                </div>
+
+                <button id="pauseButton" class="pause-button">
+                    PAUSAR ||
+                </button>
+
+            </header>
+
+            <!-- PAINEL LATERAL -->
+            <aside class="side-panel">
+
+                <div class="panel-section">
+
+                    <span class="section-eyebrow">
+                        MONITORAMENTO
+                    </span>
+
+                    <h3 id="simTitle">
+                        AMBIENTE MONITORADO
+                    </h3>
+
+                    <p id="simDescription">
+                        Sistema de monitoramento em funcionamento.
+                    </p>
+
+                </div>
+
+                <div class="monitor-card">
+
+                    <div class="monitor-heading">
+                        <span>DETECTOR DE FUMAÇA</span>
+                        <span class="monitor-dot"></span>
+                    </div>
+
+                    <strong id="detectorState">OPERACIONAL</strong>
+
+                </div>
+
+                <div class="monitor-card">
+
+                    <div class="monitor-heading">
+                        <span>ALARME</span>
+                        <span class="monitor-dot"></span>
+                    </div>
+
+                    <strong id="alarmState">INATIVO</strong>
+
+                </div>
+
+                <div class="monitor-card">
+
+                    <div class="monitor-heading">
+                        <span>NÍVEL DE RISCO</span>
+                    </div>
+
+                    <strong id="riskState">NORMAL</strong>
+
+                </div>
+
+                <div id="alertMessage" class="alert-message hidden">
+
+                    <strong>ALERTA DE EMERGÊNCIA</strong>
+
+                    <p>
+                        Siga as orientações de evacuação.
+                    </p>
+
+                </div>
+
+            </aside>
+
+            <!-- CONTROLES INFERIORES -->
+            <footer class="simulation-footer">
+
+                <div class="simulation-tip">
+                    <span>PROTOCOLO DE SEGURANÇA</span>
+
+                    <p>
+                        Observe o ambiente e siga as orientações
+                        de segurança.
+                    </p>
+                </div>
+
+                <div class="simulation-controls">
+
+                    <button id="triggerButton" class="emergency-button">
+                        <span class="emergency-button-icon">!</span>
+                        SIMULAR ALERTA
+                    </button>
+
+                    <button id="backButton" class="secondary-button">
+                        SAIR DO CENÁRIO
+                    </button>
+
+                </div>
+
+            </footer>
+
+        </section>
+
+        <!-- MENU DE PAUSA -->
+        <section id="pauseMenu" class="pause-menu hidden">
+
+            <div class="pause-content">
+
+                <span class="section-eyebrow">
+                    SIMULAÇÃO INTERROMPIDA
+                </span>
+
+                <h2>PAUSADO<span>.</span></h2>
+
+                <p>
+                    A simulação está temporariamente pausada.
+                </p>
+
+                <div class="pause-actions">
+
+                    <button id="resumeButton" class="primary-button">
+                        CONTINUAR
+                    </button>
+
+                    <button id="pauseBackButton" class="secondary-button">
+                        VOLTAR AO MENU
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- RESULTADOS -->
+        <section id="resultsScreen" class="results-screen hidden">
+
+            <div class="results-content">
+
+                <span class="section-eyebrow">
+                    SIMULAÇÃO CONCLUÍDA
+                </span>
+
+                <h2>
+                    RELATÓRIO DA <span>SIMULAÇÃO</span>
+                </h2>
+
+                <div class="results-data"></div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- JAVASCRIPT PRINCIPAL -->
+    <script type="module" src="/src/main.js"></script>
+
+</body>
+</html>

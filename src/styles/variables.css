@@ -1,0 +1,62 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Cores principais */
+  --color-background: #080b10;
+  --color-background-secondary: #10151d;
+  --color-panel: rgba(17, 23, 32, 0.92);
+  --color-panel-light: #1b2430;
+
+  /* Emergência */
+  --color-primary: #ed343d;
+  --color-primary-light: #ff555d;
+  --color-primary-dark: #a81720;
+
+  /* Cores complementares */
+  --color-white: #ffffff;
+  --color-text: #e9edf3;
+  --color-muted: #8c98a8;
+  --color-border: rgba(255, 255, 255, 0.1);
+
+  --color-success: #43c98a;
+  --color-warning: #f5b942;
+  --color-danger: #ed343d;
+
+  /* Tipografia */
+  --font-primary: 'Inter', sans-serif;
+  --font-display: 'Barlow Condensed', sans-serif;
+
+  /* Espaçamentos */
+  --space-xs: 5px;
+  --space-sm: 10px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Bordas */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  /* Sombras */
+  --shadow-panel:
+    0 15px 45px rgba(0, 0, 0, 0.35);
+
+  --shadow-red:
+    0 0 25px rgba(237, 52, 61, 0.2);
+
+  /* Transições */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.35s ease;
+  --transition-slow: 0.6s ease;
+
+  /* Camadas */
+  --z-background: 0;
+  --z-game: 1;
+  --z-interface: 10;
+  --z-overlay: 20;
+  --z-modal: 30;
+}

@@ -1,0 +1,898 @@
+/* =========================================
+   FIRELINE 3D — INTERFACE
+========================================= */
+
+/* SELEÇÃO DE CENÁRIOS */
+
+#scenarioSelect {
+  z-index: var(--z-overlay);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 50px;
+  box-sizing: border-box;
+  background: rgba(5, 8, 13, 0.96);
+  overflow-y: auto;
+}
+
+#scenarioSelect.hidden {
+  display: none !important;
+}
+
+.scenario-header {
+  max-width: 900px;
+  margin: 0 auto 35px;
+  width: 100%;
+}
+
+#scenarioCards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.scenario-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  min-height: 230px;
+  padding: 25px;
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-align: left;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.scenario-card:hover {
+  border-color: rgba(237, 52, 61, 0.5);
+  transform: translateY(-4px);
+}
+
+.scenario-card.selected {
+  background: rgba(237, 52, 61, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-red);
+}
+
+.scenario-card strong {
+  font-family: var(--font-display);
+  font-size: 27px;
+  text-transform: uppercase;
+}
+
+.scenario-card span {
+  color: var(--color-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.scenario-card .scenario-card__tag {
+  color: var(--color-primary-light);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.scenario-card .scenario-card__duration {
+  margin-top: auto;
+  color: var(--color-text);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.scenario-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+/* SIMULAÇÃO E HUD */
+
+.side-panel {
+  position: absolute;
+  top: 95px;
+  right: 25px;
+  z-index: var(--z-interface);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 290px;
+}
+
+.hud-panel {
+  padding: 18px;
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(15px);
+}
+
+.hud-panel h3 {
+  margin-bottom: 15px;
+  color: var(--color-muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.hud-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 11px;
+}
+
+.hud-item:last-child {
+  border-bottom: none;
+}
+
+.hud-item strong {
+  color: var(--color-white);
+}
+
+#simClock {
+  color: var(--color-primary-light);
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 800;
+}
+
+#alertMessage {
+  padding: 18px;
+  background: rgba(237, 52, 61, 0.16);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-red);
+  animation: alertPulse 1.5s infinite;
+}
+
+#alertMessage strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--color-primary-light);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+#alertMessage p {
+  color: var(--color-text);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.footer {
+  position: absolute;
+  right: 25px;
+  bottom: 25px;
+  left: 25px;
+  z-index: var(--z-interface);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+#triggerButton {
+  padding: 15px 24px;
+  background: var(--color-primary);
+  border-radius: var(--radius-sm);
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* CONFIGURAÇÕES */
+
+#settingsPanel,
+#pauseMenu,
+#exitDialog {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(12px);
+}
+
+.settings-card,
+.pause-card,
+.dialog-card {
+  width: min(470px, 100%);
+  padding: 32px;
+  background: #111720;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-panel);
+}
+
+.settings-card h2,
+.pause-card h2,
+.dialog-card h2 {
+  margin-bottom: 25px;
+  font-family: var(--font-display);
+  font-size: 36px;
+  text-transform: uppercase;
+}
+
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.setting-group label {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.setting-group input,
+.setting-group select {
+  width: 100%;
+  accent-color: var(--color-primary);
+}
+
+.setting-group select {
+  padding: 12px;
+  background: #202936;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: white;
+}
+
+/* PAUSA */
+
+#pauseMenu {
+  background: rgba(4, 7, 12, 0.85);
+}
+
+.pause-card {
+  text-align: center;
+}
+
+.pause-card p {
+  margin-bottom: 25px;
+  color: var(--color-muted);
+}
+
+.pause-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* RESULTADOS */
+
+#resultsScreen {
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  background: rgba(4, 7, 12, 0.95);
+}
+
+.results-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(560px, 100%);
+  padding: 45px 30px;
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  text-align: center;
+  box-shadow: var(--shadow-panel);
+}
+
+.results-card__eyebrow {
+  color: var(--color-primary-light);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.results-card h2 {
+  margin-top: 15px;
+  font-family: var(--font-display);
+  font-size: 36px;
+}
+
+.results-score {
+  margin: 25px 0 10px;
+  color: var(--color-primary-light);
+  font-family: var(--font-display);
+  font-size: 100px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.results-classification {
+  margin-bottom: 20px;
+  color: var(--color-success);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.results-card button {
+  margin-top: 25px;
+  padding: 14px 24px;
+  background: var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* CARREGAMENTO */
+
+#loadingScreen {
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-background);
+}
+
+.loading-content {
+  width: min(420px, 85%);
+  text-align: center;
+}
+
+.loading-content h2 {
+  margin-bottom: 12px;
+  font-family: var(--font-display);
+  font-size: 32px;
+}
+
+.loading-content p {
+  color: var(--color-muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.loading-track {
+  width: 100%;
+  height: 4px;
+  margin-top: 25px;
+  overflow: hidden;
+  background: #28303b;
+  border-radius: 10px;
+}
+
+#loadingProgress {
+  width: 0%;
+  height: 100%;
+  background: var(--color-primary);
+  transition: width 0.3s ease;
+}
+
+/* =========================================
+   FIRELINE 3D — REFINAMENTO DA SELEÇÃO
+========================================= */
+
+#scenarioSelect {
+  padding: 45px clamp(24px, 7vw, 110px);
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      rgba(38, 48, 62, 0.28),
+      transparent 65%
+    ),
+    rgba(5, 9, 14, 0.94);
+}
+
+#scenarioSelect .scenario-header {
+  width: 100%;
+  max-width: 1250px;
+  margin: 0 auto 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#scenarioSelect .back-button {
+  min-height: 42px;
+  padding: 0 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 7px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+#scenarioSelect .back-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #ef343e;
+}
+
+#scenarioSelect .scenario-heading {
+  width: 100%;
+  max-width: 1250px;
+  margin: 0 auto 35px;
+}
+
+#scenarioSelect .section-eyebrow {
+  display: block;
+  margin-bottom: 12px;
+  color: #f0444e;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+#scenarioSelect .scenario-heading h2 {
+  margin: 0 0 12px;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+#scenarioSelect .scenario-heading p {
+  margin: 0;
+  color: #929ba9;
+  font-size: 14px;
+}
+
+#scenarioSelect .scenario-cards {
+  width: 100%;
+  max-width: 1250px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+#scenarioSelect .scenario-card {
+  position: relative;
+  min-height: 255px;
+  padding: 30px 27px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  overflow: hidden;
+  background: linear-gradient(145deg, #151b24, #0e131b);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 15px;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+#scenarioSelect .scenario-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(239, 52, 62, 0.65);
+}
+
+#scenarioSelect .scenario-card.selected {
+  background: linear-gradient(145deg, #291316, #170d11);
+  border: 1px solid #ef343e;
+  box-shadow:
+    0 0 0 1px rgba(239, 52, 62, 0.12),
+    0 15px 45px rgba(239, 52, 62, 0.10);
+}
+
+#scenarioSelect .scenario-card__tag {
+  color: #f0444e;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+#scenarioSelect .scenario-card strong {
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(19px, 1.6vw, 24px);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+#scenarioSelect .scenario-card > span:not(.scenario-card__tag):not(.scenario-card__duration) {
+  color: #929ba9;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+#scenarioSelect .scenario-card__duration {
+  margin-top: auto;
+  padding-top: 12px;
+  color: #dce0e7;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+#scenarioSelect .scenario-bottom {
+  width: 100%;
+  max-width: 1250px;
+  margin: 35px auto 0;
+  padding-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+#scenarioSelect .scenario-bottom > span {
+  color: #687384;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+#scenarioSelect #startScenario {
+  min-width: 220px;
+  min-height: 52px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+/* =========================================
+   CAMPOS DE IDENTIFICAÇÃO E POSICIONAMENTO DO LAYOUT
+========================================= */
+
+/* Layout Flexbox/Grid Principal (Garante o alinhamento Lado a Lado do Formulário e Ranking) */
+.player-ranking-layout,
+.player-form-container {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  gap: 32px !important;
+  width: 100% !important;
+  max-width: 1100px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+}
+
+/* Painel Esquerdo - Formulário */
+.player-form,
+.player-form-panel {
+  flex: 1 1 440px !important;
+  min-width: 320px !important;
+  max-width: 500px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: rgba(17, 27, 41, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 14px !important;
+  padding: 28px !important;
+  box-sizing: border-box !important;
+}
+
+/* Painel Direito - Ranking */
+.player-ranking-panel,
+.player-ranking {
+  flex: 1 1 520px !important;
+  min-width: 320px !important;
+  max-width: 560px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: rgba(17, 27, 41, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 14px !important;
+  padding: 28px !important;
+  box-sizing: border-box !important;
+}
+
+.player-form__field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.player-form__field label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  color: #d8dee8;
+}
+
+.player-form__field label::before {
+  content: "";
+  width: 3px;
+  height: 13px;
+  border-radius: 5px;
+  background: #e0a13b;
+}
+
+.player-form__field input,
+.player-form__field select {
+  width: 100%;
+  height: 54px;
+  padding: 0 17px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 10px;
+  background: #111b29;
+  color: #f5f7fa;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.player-form__field input::placeholder {
+  color: #8491a3;
+  font-weight: 400;
+}
+
+.player-form__field input:hover,
+.player-form__field select:hover {
+  border-color: rgba(224, 161, 59, 0.55);
+  background: #162233;
+}
+
+.player-form__field input:focus,
+.player-form__field select:focus {
+  border-color: #e0a13b;
+  background: #172536;
+  box-shadow: 0 0 0 3px rgba(224, 161, 59, 0.12);
+}
+
+.player-form__field select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 45px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23e0a13b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+
+.player-form__field select option {
+  background: #111b29;
+  color: #ffffff;
+  padding: 12px;
+}
+
+.player-form__notice {
+  margin-top: 8px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(224, 161, 59, 0.06);
+  border: 1px solid rgba(224, 161, 59, 0.15);
+}
+
+.player-form__notice p {
+  font-size: 11px;
+  line-height: 1.7;
+  color: #aeb9c8;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 900px) {
+  #scenarioCards,
+  #scenarioSelect .scenario-cards {
+    grid-template-columns: 1fr;
+  }
+
+  #scenarioSelect {
+    justify-content: flex-start;
+    padding: 35px 20px;
+  }
+
+  #scenarioSelect .scenario-header {
+    margin-bottom: 45px;
+  }
+
+  #scenarioSelect .scenario-card {
+    min-height: 200px;
+  }
+
+  /* Ajuste responsivo do layout do jogador/ranking */
+  .player-ranking-layout,
+  .player-form-container {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 24px !important;
+  }
+
+  .player-form,
+  .player-form-panel,
+  .player-ranking-panel,
+  .player-ranking {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .side-panel {
+    top: 75px;
+    right: 12px;
+    width: 230px;
+  }
+
+  .footer {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .player-form__field input,
+  .player-form__field select {
+    height: 50px;
+    font-size: 13px;
+  }
+
+  .player-form__field label {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 550px) {
+  .side-panel {
+    top: auto;
+    right: 10px;
+    bottom: 90px;
+    width: min(230px, calc(100% - 20px));
+  }
+
+  .hud-panel {
+    padding: 12px;
+  }
+
+  .footer {
+    flex-wrap: wrap;
+  }
+
+  .settings-card,
+  .pause-card,
+  .dialog-card {
+    padding: 23px;
+  }
+
+  #scenarioSelect .scenario-bottom {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  #scenarioSelect #startScenario {
+    width: 100%;
+  }
+}
+
+
+/* =========================================
+   FIRELINE 3D — AJUSTE DE TELA E PAINÉIS
+   CONTEÚDO SEM CORTES
+========================================= */
+
+/* Área que contém formulário e ranking */
+.player-ranking-layout,
+.player-form-container {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+
+  width: 100% !important;
+  max-width: 1050px !important;
+  margin: 0 auto !important;
+  padding: 0 20px 30px !important;
+
+  gap: 22px !important;
+  align-items: stretch !important;
+  box-sizing: border-box !important;
+
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+/* Os dois painéis */
+.player-form,
+.player-form-panel,
+.player-ranking-panel,
+.player-ranking {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+
+  margin: 0 !important;
+  padding: 24px !important;
+
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+/* Conteúdo interno */
+.player-form *,
+.player-form-panel *,
+.player-ranking-panel *,
+.player-ranking * {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+
+/* Campos */
+.player-form__field {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.player-form__field input,
+.player-form__field select {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/* A tela inteira pode rolar quando necessário */
+#scenarioSelect {
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-height: 100vh !important;
+
+  justify-content: flex-start !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+
+  box-sizing: border-box !important;
+}
+
+/* Telas menores: painéis empilhados */
+@media (max-width: 850px) {
+  .player-ranking-layout,
+  .player-form-container {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: 620px !important;
+    padding: 0 16px 25px !important;
+  }
+}
+
+/* Celulares */
+@media (max-width: 480px) {
+  .player-form,
+  .player-form-panel,
+  .player-ranking-panel,
+  .player-ranking {
+    padding: 18px !important;
+  }
+}

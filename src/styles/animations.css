@@ -1,0 +1,103 @@
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes alertPulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(237, 52, 61, 0.1);
+  }
+
+  50% {
+    box-shadow: 0 0 25px rgba(237, 52, 61, 0.3);
+  }
+}
+
+@keyframes emergencyBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes loadingPulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+#mainMenu {
+  animation: fadeIn 0.8s ease both;
+}
+
+.menu-content {
+  animation: slideUp 0.9s ease both;
+}
+
+.scenario-card {
+  animation: slideUp 0.5s ease both;
+}
+
+.side-panel {
+  animation: slideInRight 0.5s ease both;
+}
+
+#alertMessage {
+  animation: alertPulse 1.5s infinite;
+}
+
+.emergency-indicator {
+  animation: emergencyBlink 1s infinite;
+}
+
+.loading-content {
+  animation: loadingPulse 1.8s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
